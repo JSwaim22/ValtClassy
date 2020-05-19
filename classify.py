@@ -99,7 +99,7 @@ def main():
         end_time = time.monotonic()
         text_lines = [
             ' ',
-            'Inference: {:.2f} ms Pe whah YOU'.format((end_time - start_time) * 1000),
+            'Inference: {:.2f} ms Pi whay YOU'.format((end_time - start_time) * 1000),
             'FPS: {} fps'.format(round(next(fps_counter))),
         ]
         for result in results:
@@ -107,7 +107,7 @@ def main():
             if labels.get(result.id, result.id) == "tree frog, tree-frog":
                 gpio6.write(True)
                 gpio73.write(False)
-            elif labels.get(result.id, result.id) == "acoustic guitar":
+            elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
                 gpio73.write(True)
                 gpio6.write(False)
         print(' '.join(text_lines))
