@@ -99,7 +99,7 @@ def main():
         end_time = time.monotonic()
         text_lines = [
             ' ',
-            'Inference: {:.2f} ms Pi whay YOU'.format((end_time - start_time) * 1000),
+            'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
             'FPS: {} fps'.format(round(next(fps_counter))),
         ]
         for result in results:
