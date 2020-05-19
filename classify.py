@@ -103,10 +103,8 @@ def main():
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if result.score > 7:
+            if result.score > 0.8:
                 gpio6.write(True)
-            else:
-                gpio6.write(False)
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
 
