@@ -103,7 +103,7 @@ def main():
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if result.score > 0.8 and labels.get(result.id, result.id) == "tree frog":
+            if result.score > 0.8 and labels.get(result.id, result.id) == "tree frog, tree-frog":
                 gpio6.write(True)
             elif result.score > 0.8:
                 gpio6.write(False)
