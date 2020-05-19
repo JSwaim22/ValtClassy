@@ -59,7 +59,6 @@ def get_output(interpreter, top_k, score_threshold):
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
 def main():
-    gpio6.write(False)
     default_model_dir = '../all_models'
     default_model = 'mobilenet_v2_1.0_224_quant_edgetpu.tflite'
     default_labels = 'imagenet_labels.txt'
@@ -104,7 +103,10 @@ def main():
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-
+            if result.score > 7:
+                gpio6.write(True)
+            else:
+                gpio6.write(False)
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
 
