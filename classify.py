@@ -98,14 +98,14 @@ def main():
         end_time = time.monotonic()
         text_lines = [
             ' ',
-            'Inference: {:.2f} ms UMMM whah YOU'.format((end_time - start_time) * 1000),
+            'Inference: {:.2f} ms DUH whah YOU'.format((end_time - start_time) * 1000),
             'FPS: {} fps'.format(round(next(fps_counter))),
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if result.score > 0.8 and labels.get(result.id, result.id) == "tree frog, tree-frog":
+            if labels.get(result.id, result.id) == "tree frog, tree-frog":
                 gpio6.write(True)
-            elif result.score > 0.8:
+            elif result.score > 0.9:
                 gpio6.write(False)
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
