@@ -98,13 +98,15 @@ def main():
         end_time = time.monotonic()
         text_lines = [
             ' ',
-            'Inference: {:.2f} ms UMMM HAY YOU'.format((end_time - start_time) * 1000),
+            'Inference: {:.2f} ms UMMM what YOU'.format((end_time - start_time) * 1000),
             'FPS: {} fps'.format(round(next(fps_counter))),
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if result.score > 0.8:
+            if result.score > 0.8 and labels.get(result.id, result.id) == "tree frog":
                 gpio6.write(True)
+            elif result.score > 0.8:
+                gpio6.write(False)
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
 
