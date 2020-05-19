@@ -34,6 +34,7 @@ from periphery import GPIO
 Category = collections.namedtuple('Category', ['id', 'score'])
 
 gpio6 = GPIO(6, "out")
+gpio73 = GPIO(73, "out")
 
 def load_labels(path):
     p = re.compile(r'\s*(\d+)(.+)')
@@ -98,14 +99,16 @@ def main():
         end_time = time.monotonic()
         text_lines = [
             ' ',
-            'Inference: {:.2f} ms DUH whah YOU'.format((end_time - start_time) * 1000),
+            'Inference: {:.2f} ms Pe whah YOU'.format((end_time - start_time) * 1000),
             'FPS: {} fps'.format(round(next(fps_counter))),
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
             if labels.get(result.id, result.id) == "tree frog, tree-frog":
                 gpio6.write(True)
-            elif result.score > 0.9:
+                gpio73.write(False)
+            elif labels.get(result.id, result.id) == "acoustic guitar":
+                gpio73.write(True)
                 gpio6.write(False)
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
