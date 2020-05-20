@@ -1,3 +1,4 @@
+import gstreamer
 from periphery import GPIO
 from playsound import playsound
 
