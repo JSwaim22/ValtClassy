@@ -30,6 +30,7 @@ import re
 import svgwrite
 import time
 from periphery import GPIO
+#from playsound import playsound         #new
 
 Category = collections.namedtuple('Category', ['id', 'score'])
 
@@ -107,6 +108,7 @@ def main():
             if labels.get(result.id, result.id) == "tree frog, tree-frog":
                 gpio6.write(True)
                 gpio73.write(False)
+                #playsound()
             elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
                 gpio73.write(True)
                 gpio6.write(False)
