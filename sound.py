@@ -8,7 +8,7 @@ gpio73 = GPIO(73, "out")
 def main():
     gpio6.write(True)
     gpio73.write(False)
-    playsound(entry.wav)
+    playsound("entry.wav")
     gpio73.write(True)
     gpio6.write(False)
 
