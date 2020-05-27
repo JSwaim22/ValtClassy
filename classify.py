@@ -127,6 +127,7 @@ def main():
                                     appsink_size=inference_size,
                                     videosrc=args.videosrc,
                                     videofmt=args.videofmt)
+    print('this gonna work???\n')
 
 if __name__ == '__main__':
     main()
