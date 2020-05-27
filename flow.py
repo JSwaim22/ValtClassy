@@ -30,7 +30,7 @@ import re
 import svgwrite
 import time
 from periphery import GPIO
-from playsound import playsound
+import simpleaudio as sa
 
 import gi
 gi.require_version('Gst', '1.0')
@@ -129,19 +129,30 @@ def main():
 
     while(1):
         # add motion detection check here
-        playsound("welcome.wav")
+        wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
         # add voice recognition here
-        playsound("key.wav")
+        wave_obj = sa.WaveObject.from_wave_file("key.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
         result = gstreamer.run_pipeline(user_callback,
                                     src_size=(640, 480),
                                     appsink_size=inference_size,
                                     videosrc=args.videosrc,
                                     videofmt=args.videofmt)
         if access:
-            playsound("stay.wav")
+            wave_obj = sa.WaveObject.from_wave_file("stay.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
             gpio6.write(False)
         else:
-            playsound("denied.wav")
+            wave_obj = sa.WaveObject.from_wave_file("denied.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
             gpio73.write(False)
 
 
