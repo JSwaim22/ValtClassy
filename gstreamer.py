@@ -77,12 +77,16 @@ class GstPipeline:
 
     def on_bus_message(self, bus, message):
         t = message.type
+        print('MAYBE I FOUND IT\n')
         if t == Gst.MessageType.EOS:
+            print('A\n')
             Gtk.main_quit()
         elif t == Gst.MessageType.WARNING:
+            print('B\n')
             err, debug = message.parse_warning()
             sys.stderr.write('Warning: %s: %s\n' % (err, debug))
         elif t == Gst.MessageType.ERROR:
+            print('C\n')
             err, debug = message.parse_error()
             sys.stderr.write('Error: %s: %s\n' % (err, debug))
             Gtk.main_quit()
