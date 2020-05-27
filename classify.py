@@ -32,6 +32,12 @@ import time
 from periphery import GPIO
 #from playsound import playsound         #new
 
+import gi
+gi.require_version('Gst', '1.0')
+gi.require_version('GstBase', '1.0')
+gi.require_version('Gtk', '3.0')
+from gi.repository import GLib, GObject, Gst, GstBase, Gtk
+
 Category = collections.namedtuple('Category', ['id', 'score'])
 
 gpio6 = GPIO(6, "out")
@@ -112,6 +118,7 @@ def main():
             elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
                 gpio73.write(True)
                 gpio6.write(False)
+                Gtk.main_quit()
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
 
