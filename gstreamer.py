@@ -55,24 +55,24 @@ class GstPipeline:
         worker = threading.Thread(target=self.inference_loop)
         worker.start()
         
-        print('Dis loop???\n')
         # Run pipeline.
         self.pipeline.set_state(Gst.State.PLAYING)
+        print('Dis loop???\n')
         try:
+            print('Surely not???\n')
             Gtk.main()
         except:
+            print('But dis though???\n')
             pass
-        print('What bout dis loop???\n')
-
+            
+        print('TRY THIS ONE ON FOR SIZE BIG BOY\n')
         # Clean up.
         self.pipeline.set_state(Gst.State.NULL)
         while GLib.MainContext.default().iteration(False):
-            print('HMMMM???\n')
             pass
         with self.condition:
             self.running = False
             self.condition.notify_all()
-            print('Try this one on for size big boy!!!\n')
         worker.join()
 
     def on_bus_message(self, bus, message):
