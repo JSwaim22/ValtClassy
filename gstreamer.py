@@ -77,7 +77,6 @@ class GstPipeline:
 
     def on_bus_message(self, bus, message):
         t = message.type
-        print('MAYBE I FOUND IT\n')
         if t == Gst.MessageType.EOS:
             print('A\n')
             Gtk.main_quit()
