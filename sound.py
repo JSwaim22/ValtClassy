@@ -1,4 +1,3 @@
-import gstreamer
 from periphery import GPIO
 from playsound import playsound
 
@@ -9,25 +8,25 @@ gpio73 = GPIO(73, "out")
 def main():
     gpio73.write(True)
     gpio6.write(False)
-    playsound("welcome.wav")
+    playsound('~/ValtWAV/welcome.wav')
     gpio6.write(True)
     gpio73.write(False)
-    playsound("package.wav")
+    playsound('~/ValtWAV/package.wav')
     gpio73.write(True)
     gpio6.write(False)
-    playsound("goodday.wav")
+    playsound('~/ValtWAV/goodday.wav')
     gpio6.write(True)
     gpio73.write(False)
-    playsound("key.wav")
+    playsound('~/ValtWAV/key.wav')
     gpio73.write(True)
     gpio6.write(False)
-    playsound("denied.wav")
+    playsound('~/ValtWAV/denied.wav')
     gpio6.write(True)
     gpio73.write(False)
-    playsound("stay.wav")
+    playsound('~/ValtWAV/stay.wav')
     gpio73.write(True)
     gpio6.write(False)
-    playsound("parcel.wav")
+    playsound('~/ValtWAV/parcel.wav')
     gpio6.write(True)
     gpio73.write(False)
     
