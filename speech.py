@@ -29,6 +29,7 @@ import numpy as np
 
 def print_results(result, commands, labels, top=3):
   """Example callback function that prints the passed detections."""
+  print("We printin or what boys!!!\n")
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
