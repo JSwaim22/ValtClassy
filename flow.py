@@ -1,3 +1,7 @@
+# To add: higher rating requiment for pictures to minimize false triggers
+#         loading recording software before speaking to speed up process
+#         test with good setup
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -149,13 +153,12 @@ def main():
             time.sleep(timing/1000000.00)
         motion.stop_ranging()
 
-        wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
-        play_obj = wave_obj.play()
-        play_obj.wait_done()
-        wave_obj = sa.WaveObject.from_wave_file("entry.wav")
-        play_obj = wave_obj.play()
-        play_obj.wait_done()
-        time.sleep(0.500)
+        #wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+        #play_obj = wave_obj.play()
+        #play_obj.wait_done()
+        #wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+        #play_obj = wave_obj.play()
+        #play_obj.wait_done()
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
@@ -168,7 +171,7 @@ def main():
                      labels_file="config/labels_gc2.raw.txt",
                      result_callback=print_results,
                      sample_rate_hz=int(args.sample_rate_hz),
-                     num_frames_hop=int(args.num_frames_hop))
+                     num_frames_hop=int(args.num_frames_hop), 1)
         if answer == 1:
             wave_obj = sa.WaveObject.from_wave_file("key.wav")
             play_obj = wave_obj.play()
@@ -177,9 +180,9 @@ def main():
             house = True
             parcel = False
         elif answer == 2:
-            wave_obj = sa.WaveObject.from_wave_file("package.wav")
-            play_obj = wave_obj.play()
-            play_obj.wait_done()
+            #wave_obj = sa.WaveObject.from_wave_file("package.wav")
+            #play_obj = wave_obj.play()
+            #play_obj.wait_done()
             answer = 0
             house = False
             # Voice Recognition
@@ -187,7 +190,7 @@ def main():
                         labels_file="config/labels_gc2.raw.txt",
                         result_callback=print_results,
                         sample_rate_hz=int(args.sample_rate_hz),
-                        num_frames_hop=int(args.num_frames_hop))
+                        num_frames_hop=int(args.num_frames_hop), 2)
             if answer == 1:
                 wave_obj = sa.WaveObject.from_wave_file("key.wav")
                 play_obj = wave_obj.play()
