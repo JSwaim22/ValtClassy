@@ -132,15 +132,15 @@ def main():
 
     while(1):
         
-        tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
-        timing = tof.get_timing()
+        motion.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
+        timing = motion.get_timing()
         if (timing < 20000):
             timing = 20000
-        distance = tof.get_distance()
+        distance = motion.get_distance()
         while(distance > 5000):
-            distance = tof.get_distance()
+            distance = motion.get_distance()
             time.sleep(timing/1000000.00)
-        tof.stop_ranging()
+        motion.stop_ranging()
         
         wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
         play_obj = wave_obj.play()
