@@ -25,6 +25,7 @@ import numpy as np
 import queue
 import tflite_runtime.interpreter as tflite
 import platform
+import simpleaudio as sa
 
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
@@ -229,7 +230,7 @@ def classify_audio(audio_device_index, interpreter, labels_file,
                    commands_file=None,
                    result_callback=None, dectection_callback=None,
                    sample_rate_hz=16000,
-                   negative_threshold=0.6, num_frames_hop=33):
+                   negative_threshold=0.6, num_frames_hop=33, step):
   """Acquire audio, preprocess, and classify."""
   # Initialize recorder.
   AUDIO_SAMPLE_RATE_HZ = sample_rate_hz
@@ -251,6 +252,19 @@ def classify_audio(audio_device_index, interpreter, labels_file,
   logger.info("Loaded commands: %s", str(commands))
   logger.info("Recording")
   timed_out = False
+
+  if step == 1:
+    wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
+    wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
+  elif step == 2:
+    wave_obj = sa.WaveObject.from_wave_file("package.wav")
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
+  
   with recorder:
     last_detection = -1
     while not timed_out:
