@@ -29,10 +29,14 @@ import numpy as np
 
 def print_results(result, commands, labels, top=3):
   """Example callback function that prints the passed detections."""
-  global timed_out
+  answered = False
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
+    if l == "yes":
+      answered = True
+    elif l == "no":
+      answered = True
     if l in commands.keys():
       threshold = commands[labels[top_results[p]]]["conf"]
     else:
@@ -40,12 +44,10 @@ def print_results(result, commands, labels, top=3):
     if top_results[p] and result[top_results[p]] > threshold:
       sys.stdout.write("\033[1m\033[93m*%15s*\033[0m (%.3f)" %
                        (l, result[top_results[p]]))
-      print("Uh yeah boss sure")
-      timed_out = True
     elif result[top_results[p]] > 0.005:
       sys.stdout.write(" %15s (%.3f)" % (l, result[top_results[p]]))
-      print("Not so fast!!!")
   sys.stdout.write("\n")
+  return answered
 
 
 def main():
