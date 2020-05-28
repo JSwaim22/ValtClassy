@@ -3,6 +3,8 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
+import sys
+import model
 import collections
 import common
 import gstreamer
@@ -15,8 +17,6 @@ import time
 from periphery import GPIO
 import simpleaudio as sa
 import VL53L0X
-import sys
-import model
 
 import gi
 gi.require_version('Gst', '1.0')
@@ -150,6 +150,7 @@ def main():
         wave_obj = sa.WaveObject.from_wave_file("entry.wav")
         play_obj = wave_obj.play()
         play_obj.wait_done()
+        time.sleep(0.500)
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
