@@ -40,8 +40,10 @@ def print_results(result, commands, labels, top=3):
     if top_results[p] and result[top_results[p]] > threshold:
       sys.stdout.write("\033[1m\033[93m*%15s*\033[0m (%.3f)" %
                        (l, result[top_results[p]]))
+      print("Uh yeah boss sure\n")
     elif result[top_results[p]] > 0.005:
       sys.stdout.write(" %15s (%.3f)" % (l, result[top_results[p]]))
+      print("Not so fast!!!\n")
   sys.stdout.write("\n")
 
 
