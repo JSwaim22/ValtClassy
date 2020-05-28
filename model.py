@@ -26,8 +26,6 @@ import queue
 import tflite_runtime.interpreter as tflite
 import platform
 
-timed_out = False
-
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
     'Darwin': 'libedgetpu.1.dylib',
@@ -262,7 +260,9 @@ def classify_audio(audio_device_index, interpreter, labels_file,
       result = get_output(interpreter)
       print("C\n")
       if result_callback:
-        result_callback(result, commands, labels)
+        answered = result_callback(result, commands, labels)
+        if answered:
+            timed_out = True
         print("D\n")
       if dectection_callback:
         detection = -1
