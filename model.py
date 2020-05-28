@@ -232,6 +232,7 @@ def classify_audio(audio_device_index, interpreter, labels_file,
                    negative_threshold=0.6, num_frames_hop=33):
   """Acquire audio, preprocess, and classify."""
   # Initialize recorder.
+  print("\nAbcdefg\n")
   AUDIO_SAMPLE_RATE_HZ = sample_rate_hz
   downsample_factor = 1
   if AUDIO_SAMPLE_RATE_HZ == 48000:
@@ -251,7 +252,6 @@ def classify_audio(audio_device_index, interpreter, labels_file,
   logger.info("Loaded commands: %s", str(commands))
   logger.info("Recording")
   timed_out = False
-  print("A\n")
   with recorder:
     last_detection = -1
     print("B\n")
