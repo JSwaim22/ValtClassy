@@ -251,17 +251,22 @@ def classify_audio(audio_device_index, interpreter, labels_file,
   logger.info("Loaded commands: %s", str(commands))
   logger.info("Recording")
   timed_out = False
+  print("A\n")
   with recorder:
     last_detection = -1
+    print("B\n")
     while not timed_out:
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
       set_input(interpreter, spectrogram.flatten())
       interpreter.invoke()
       result = get_output(interpreter)
+      print("C\n")
       if result_callback:
         result_callback(result, commands, labels)
+        print("D\n")
       if dectection_callback:
         detection = -1
+        print("E\n")
         if result[0] < negative_threshold:
           top3 = np.argsort(-result)[:3]
           for p in range(3):
