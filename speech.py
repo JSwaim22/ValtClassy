@@ -25,18 +25,26 @@ import argparse
 import sys
 import model
 import numpy as np
+from periphery import GPIO
 
+gpio6 = GPIO(6, "out")
+gpio73 = GPIO(73, "out")
+
+answer = 0
 
 def print_results(result, commands, labels, top=3):
   """Example callback function that prints the passed detections."""
+  global answer
   answered = False
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
     if l == "yes":
       answered = True
+      answer = 1
     elif l == "no":
       answered = True
+      answer = 2
     if l in commands.keys():
       threshold = commands[labels[top_results[p]]]["conf"]
     else:
@@ -51,7 +59,8 @@ def print_results(result, commands, labels, top=3):
 
 
 def main():
-  print("You bet!!!\n")
+  gpio6.write(False)
+  gpio73.write(False)
   parser = argparse.ArgumentParser()
   model.add_model_flags(parser)
   args = parser.parse_args()
@@ -63,7 +72,10 @@ def main():
                        result_callback=print_results,
                        sample_rate_hz=int(args.sample_rate_hz),
                        num_frames_hop=int(args.num_frames_hop))
-  print("Ha nah!!!\n")
+  if answer = 1:
+    gpio6.write(True)
+  elif answer = 2:
+    gpio73.write(True)
 
 if __name__ == "__main__":
   main()
