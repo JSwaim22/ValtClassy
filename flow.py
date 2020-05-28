@@ -87,6 +87,10 @@ def get_output(interpreter, top_k, score_threshold):
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
 def main():
+    global access
+    global answer
+    global house
+    global parcel
 
     def user_callback(input_tensor, src_size, inference_box):
         global access
@@ -133,7 +137,7 @@ def main():
         gpio73.write(False)
         gpio7.write(False)
         gpio8.write(False)
-        
+
         motion.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
         timing = motion.get_timing()
         if (timing < 20000):
@@ -143,7 +147,7 @@ def main():
             distance = motion.get_distance()
             time.sleep(timing/1000000.00)
         motion.stop_ranging()
-        
+
         wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
         play_obj = wave_obj.play()
         play_obj.wait_done()
