@@ -134,13 +134,6 @@ def main():
         gpio7.write(False)
         gpio8.write(False)
         
-        parser = argparse.ArgumentParser()
-        model.add_model_flags(parser)
-        args = parser.parse_args()
-        interpreter = model.make_interpreter(args.model_file)
-        interpreter.allocate_tensors()
-        mic = args.mic if args.mic is None else int(args.mic)
-        
         motion.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
         timing = motion.get_timing()
         if (timing < 20000):
@@ -159,6 +152,12 @@ def main():
         play_obj.wait_done()
         
         # Voice Recognition
+        parser = argparse.ArgumentParser()
+        model.add_model_flags(parser)
+        args = parser.parse_args()
+        interpreter = model.make_interpreter(args.model_file)
+        interpreter.allocate_tensors()
+        mic = args.mic if args.mic is None else int(args.mic)
         model.classify_audio(mic, interpreter,
                      labels_file="config/labels_gc2.raw.txt",
                      result_callback=print_results,
