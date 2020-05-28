@@ -15,6 +15,8 @@ import time
 from periphery import GPIO
 import simpleaudio as sa
 import VL53L0X
+import sys
+import model
 
 import gi
 gi.require_version('Gst', '1.0')
