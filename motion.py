@@ -1,26 +1,46 @@
-# Simple demo of the VL53L0X distance sensor.
-# Will print the sensed range/distance every second.
+#!/usr/bin/python
+
+# MIT License
+# 
+# Copyright (c) 2017 John Bryan Moore
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import time
+import VL53L0X
 
-import board
-import busio
+# Create a VL53L0X object
+tof = VL53L0X.VL53L0X()
 
-import adafruit_vl53l0x
+# Start ranging
+tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
-# Initialize I2C bus and sensor.
-i2c = busio.I2C(board.SCL, board.SDA)
-vl53 = adafruit_vl53l0x.VL53L0X(i2c)
+timing = tof.get_timing()
+if (timing < 20000):
+    timing = 20000
+print ("Timing %d ms" % (timing/1000))
 
-# Optionally adjust the measurement timing budget to change speed and accuracy.
-# See the example here for more details:
-#   https://github.com/pololu/vl53l0x-arduino/blob/master/examples/Single/Single.ino
-# For example a higher speed but less accurate timing budget of 20ms:
-# vl53.measurement_timing_budget = 20000
-# Or a slower but more accurate timing budget of 200ms:
-# vl53.measurement_timing_budget = 200000
-# The default timing budget is 33ms, a good compromise of speed and accuracy.
+for count in range(1,101):
+    distance = tof.get_distance()
+    if (distance > 0):
+        print ("%d mm, %d cm, %d" % (distance, (distance/10), count))
 
-# Main loop will read the range and print it every second.
-while True:
-    print("Range: {0}mm".format(vl53.range))
-    time.sleep(1.0)
+    time.sleep(timing/1000000.00)
+
+tof.stop_ranging()
