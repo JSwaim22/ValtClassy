@@ -258,12 +258,10 @@ def classify_audio(audio_device_index, interpreter, labels_file,
       set_input(interpreter, spectrogram.flatten())
       interpreter.invoke()
       result = get_output(interpreter)
-      print("C\n")
       if result_callback:
         answered = result_callback(result, commands, labels)
         if answered:
             timed_out = True
-        print("D\n")
       if dectection_callback:
         detection = -1
         print("E\n")
