@@ -235,7 +235,10 @@ def main():
                                         videosrc=args.videosrc,
                                         videofmt=args.videofmt)
             if access:
-                wave_obj = sa.WaveObject.from_wave_file("stay.wav")
+                if house:
+                    wave_obj = sa.WaveObject.from_wave_file("stay.wav")
+                elif parcel:
+                    wave_obj = sa.WaveObject.from_wave_file("parcel.wav")
                 play_obj = wave_obj.play()
                 play_obj.wait_done()
             else:
