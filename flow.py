@@ -87,10 +87,6 @@ def get_output(interpreter, top_k, score_threshold):
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
 def main():
-    global access
-    global answer
-    global house
-    global parcel
 
     def user_callback(input_tensor, src_size, inference_box):
         global access
@@ -133,6 +129,11 @@ def main():
         return generate_svg(src_size, text_lines)
 
     while(1):
+        global access
+        global answer
+        global house
+        global parcel
+        
         gpio6.write(False)
         gpio73.write(False)
         gpio7.write(False)
