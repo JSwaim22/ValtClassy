@@ -25,10 +25,6 @@ import numpy as np
 import queue
 import tflite_runtime.interpreter as tflite
 import platform
-from periphery import GPIO
-
-gpio6 = GPIO(6, "out")
-gpio73 = GPIO(73, "out")
 
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
@@ -236,7 +232,6 @@ def classify_audio(audio_device_index, interpreter, labels_file,
                    negative_threshold=0.6, num_frames_hop=33):
   """Acquire audio, preprocess, and classify."""
   # Initialize recorder.
-  print("\nAbcdefg\n")
   AUDIO_SAMPLE_RATE_HZ = sample_rate_hz
   downsample_factor = 1
   if AUDIO_SAMPLE_RATE_HZ == 48000:
@@ -258,14 +253,12 @@ def classify_audio(audio_device_index, interpreter, labels_file,
   timed_out = False
   with recorder:
     last_detection = -1
-    gpio6.write(True)
     while not timed_out:
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
       set_input(interpreter, spectrogram.flatten())
       interpreter.invoke()
       result = get_output(interpreter)
       print("C\n")
-      gpio73.write(True)
       if result_callback:
         result_callback(result, commands, labels)
         print("D\n")
@@ -273,6 +266,7 @@ def classify_audio(audio_device_index, interpreter, labels_file,
         detection = -1
         print("E\n")
         if result[0] < negative_threshold:
+          print("F\n")
           top3 = np.argsort(-result)[:3]
           for p in range(3):
             label = labels[top3[p]]
@@ -282,11 +276,14 @@ def classify_audio(audio_device_index, interpreter, labels_file,
               if detection < 0:
                 detection = top3[p]
         if detection < 0 and last_detection > 0:
+          print("G\n")
           print("---------------")
           last_detection = 0
         if labels[detection] in commands.keys() and detection != last_detection:
+          print("H\n")
           print(labels[detection], commands[labels[detection]])
           dectection_callback(commands[labels[detection]]['key'])
           last_detection = detection
       if spectrogram.mean() < 0.001:
+        print("I\n")
         print("Warning: Input audio signal is nearly 0. Mic may be off ?")
