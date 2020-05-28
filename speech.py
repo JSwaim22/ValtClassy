@@ -46,6 +46,7 @@ def print_results(result, commands, labels, top=3):
 
 
 def main():
+  print("You bet!!!\n")
   parser = argparse.ArgumentParser()
   model.add_model_flags(parser)
   args = parser.parse_args()
@@ -57,6 +58,7 @@ def main():
                        result_callback=print_results,
                        sample_rate_hz=int(args.sample_rate_hz),
                        num_frames_hop=int(args.num_frames_hop))
+  print("Ha nah!!!\n")
 
 if __name__ == "__main__":
   main()
