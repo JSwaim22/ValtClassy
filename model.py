@@ -25,6 +25,10 @@ import numpy as np
 import queue
 import tflite_runtime.interpreter as tflite
 import platform
+from periphery import GPIO
+
+gpio6 = GPIO(6, "out")
+gpio73 = GPIO(73, "out")
 
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
@@ -254,13 +258,14 @@ def classify_audio(audio_device_index, interpreter, labels_file,
   timed_out = False
   with recorder:
     last_detection = -1
-    print("B\n")
+    gpio6.write(True)
     while not timed_out:
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
       set_input(interpreter, spectrogram.flatten())
       interpreter.invoke()
       result = get_output(interpreter)
       print("C\n")
+      gpio73.write(True)
       if result_callback:
         result_callback(result, commands, labels)
         print("D\n")
