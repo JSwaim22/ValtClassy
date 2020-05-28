@@ -86,48 +86,47 @@ def get_output(interpreter, top_k, score_threshold):
     ]
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
-
 def main():
-  
-  def user_callback(input_tensor, src_size, inference_box):
-    global access
-    global house
-    global parcel
-    nonlocal fps_counter
-    start_time = time.monotonic()
-    common.set_input(interpreter, input_tensor)
-    interpreter.invoke()
-    # For larger input image sizes, use the edgetpu.classification.engine for better performance
-    results = get_output(interpreter, args.top_k, args.threshold)
-    end_time = time.monotonic()
-    text_lines = [
-        ' ',
-        'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
-        'FPS: {} fps'.format(round(next(fps_counter))),
-    ]
-    for result in results:
-        text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-        if house:
-            if labels.get(result.id, result.id) == "tree frog, tree-frog":
-                access = 1
-                gpio6.write(True)
-                Gtk.main_quit()
-            elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
-                access = 0
-                gpio73.write(True)
-                Gtk.main_quit()
-        elif parcel:
-            if labels.get(result.id, result.id) == "acoustic guitar": 
-                access = 1
-                gpio7.write(True)
-                Gtk.main_quit()
-            elif labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
-                access = 0
-                gpio8.write(True)
-                Gtk.main_quit()
 
-    print(' '.join(text_lines))
-    return generate_svg(src_size, text_lines)
+    def user_callback(input_tensor, src_size, inference_box):
+        global access
+        global house
+        global parcel
+        nonlocal fps_counter
+        start_time = time.monotonic()
+        common.set_input(interpreter, input_tensor)
+        interpreter.invoke()
+        # For larger input image sizes, use the edgetpu.classification.engine for better performance
+        results = get_output(interpreter, args.top_k, args.threshold)
+        end_time = time.monotonic()
+        text_lines = [
+            ' ',
+            'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
+            'FPS: {} fps'.format(round(next(fps_counter))),
+        ]
+        for result in results:
+            text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
+            if house:
+                if labels.get(result.id, result.id) == "tree frog, tree-frog":
+                    access = 1
+                    gpio6.write(True)
+                    Gtk.main_quit()
+                elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
+                    access = 0
+                    gpio73.write(True)
+                    Gtk.main_quit()
+            elif parcel:
+                if labels.get(result.id, result.id) == "acoustic guitar": 
+                    access = 1
+                    gpio7.write(True)
+                    Gtk.main_quit()
+                elif labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
+                    access = 0
+                    gpio8.write(True)
+                    Gtk.main_quit()
+                
+        print(' '.join(text_lines))
+        return generate_svg(src_size, text_lines)
 
     while(1):
         global access
@@ -236,10 +235,7 @@ def main():
                                         videosrc=args.videosrc,
                                         videofmt=args.videofmt)
             if access:
-                if house:
-                    wave_obj = sa.WaveObject.from_wave_file("stay.wav")
-                elif parcel:
-                    wave_obj = sa.WaveObject.from_wave_file("parcel.wav")
+                wave_obj = sa.WaveObject.from_wave_file("stay.wav")
                 play_obj = wave_obj.play()
                 play_obj.wait_done()
             else:
@@ -252,3 +248,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
