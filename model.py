@@ -26,6 +26,8 @@ import queue
 import tflite_runtime.interpreter as tflite
 import platform
 
+timed_out = False
+
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
     'Darwin': 'libedgetpu.1.dylib',
