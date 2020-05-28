@@ -137,7 +137,7 @@ def main():
         if (timing < 20000):
             timing = 20000
         distance = motion.get_distance()
-        while(distance > 5000):
+        while(distance > 500):
             distance = motion.get_distance()
             time.sleep(timing/1000000.00)
         motion.stop_ranging()
