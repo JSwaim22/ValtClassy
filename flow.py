@@ -167,11 +167,11 @@ def main():
         interpreter = model.make_interpreter(args.model_file)
         interpreter.allocate_tensors()
         mic = args.mic if args.mic is None else int(args.mic)
-        model.classify_audio(mic, interpreter,
+        model.classify_audio(mic, interpreter, 1,
                      labels_file="config/labels_gc2.raw.txt",
                      result_callback=print_results,
                      sample_rate_hz=int(args.sample_rate_hz),
-                     num_frames_hop=int(args.num_frames_hop), 1)
+                     num_frames_hop=int(args.num_frames_hop))
         if answer == 1:
             wave_obj = sa.WaveObject.from_wave_file("key.wav")
             play_obj = wave_obj.play()
@@ -186,11 +186,11 @@ def main():
             answer = 0
             house = False
             # Voice Recognition
-            model.classify_audio(mic, interpreter,
+            model.classify_audio(mic, interpreter, 2,
                         labels_file="config/labels_gc2.raw.txt",
                         result_callback=print_results,
                         sample_rate_hz=int(args.sample_rate_hz),
-                        num_frames_hop=int(args.num_frames_hop), 2)
+                        num_frames_hop=int(args.num_frames_hop))
             if answer == 1:
                 wave_obj = sa.WaveObject.from_wave_file("key.wav")
                 play_obj = wave_obj.play()
