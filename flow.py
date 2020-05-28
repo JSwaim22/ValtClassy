@@ -31,6 +31,7 @@ import svgwrite
 import time
 from periphery import GPIO
 import simpleaudio as sa
+import VL53L0X
 
 import gi
 gi.require_version('Gst', '1.0')
@@ -42,6 +43,8 @@ Category = collections.namedtuple('Category', ['id', 'score'])
 
 gpio6 = GPIO(6, "out")
 gpio73 = GPIO(73, "out")
+
+motion = VL53L0X.VL53L0X()
 
 access = 0
 
@@ -128,7 +131,17 @@ def main():
         return generate_svg(src_size, text_lines)
 
     while(1):
-        # add motion detection check here
+        
+        tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
+        timing = tof.get_timing()
+        if (timing < 20000):
+            timing = 20000
+        distance = tof.get_distance()
+        while(distance > 5000):
+            distance = tof.get_distance()
+            time.sleep(timing/1000000.00)
+        tof.stop_ranging()
+        
         wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
         play_obj = wave_obj.play()
         play_obj.wait_done()
