@@ -86,8 +86,10 @@ def get_output(interpreter, top_k, score_threshold):
     ]
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
+
+def main():
   
-def user_callback(input_tensor, src_size, inference_box):
+  def user_callback(input_tensor, src_size, inference_box):
     global access
     global house
     global parcel
@@ -126,9 +128,6 @@ def user_callback(input_tensor, src_size, inference_box):
 
     print(' '.join(text_lines))
     return generate_svg(src_size, text_lines)
-
-
-def main():
 
     while(1):
         global access
