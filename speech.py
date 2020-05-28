@@ -72,9 +72,9 @@ def main():
                        result_callback=print_results,
                        sample_rate_hz=int(args.sample_rate_hz),
                        num_frames_hop=int(args.num_frames_hop))
-  if answer = 1:
+  if answer == 1:
     gpio6.write(True)
-  elif answer = 2:
+  elif answer == 2:
     gpio73.write(True)
 
 if __name__ == "__main__":
