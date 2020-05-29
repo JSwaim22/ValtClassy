@@ -267,7 +267,7 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
         play_obj = wave_obj.play()
         play_obj.wait_done()
         t = 2
-      elif step == 2 t == 1:
+      elif step == 2 and t == 1:
         wave_obj = sa.WaveObject.from_wave_file("package.wav")
         play_obj = wave_obj.play()
         play_obj.wait_done()
