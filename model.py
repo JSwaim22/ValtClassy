@@ -259,6 +259,10 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
     while not timed_out:
       print("A\n")
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
+      print("B\n")
+      set_input(interpreter, spectrogram.flatten())
+      interpreter.invoke()
+      result = get_output(interpreter)
       if step == 1 and t == 1:
         wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
         play_obj = wave_obj.play()
@@ -272,10 +276,6 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
         play_obj = wave_obj.play()
         play_obj.wait_done()
         t = 2
-      print("B\n")
-      set_input(interpreter, spectrogram.flatten())
-      interpreter.invoke()
-      result = get_output(interpreter)
       if result_callback:
         answered = result_callback(result, commands, labels)
         if answered:
