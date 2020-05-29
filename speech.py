@@ -67,7 +67,7 @@ def main():
   interpreter = model.make_interpreter(args.model_file)
   interpreter.allocate_tensors()
   mic = args.mic if args.mic is None else int(args.mic)
-  model.classify_audio(mic, interpreter,
+  model.classify_audio(mic, interpreter, 3,
                        labels_file="config/labels_gc2.raw.txt",
                        result_callback=print_results,
                        sample_rate_hz=int(args.sample_rate_hz),
