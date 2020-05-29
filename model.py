@@ -268,12 +268,18 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
   with recorder:
     last_detection = -1
     while not timed_out:
+      print("A\n")
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
+      print("B\n")
       set_input(interpreter, spectrogram.flatten())
+      print("C\n")
       interpreter.invoke()
+      print("D\n")
       result = get_output(interpreter)
+      print("EEeeeeeee\n")
       if result_callback:
         answered = result_callback(result, commands, labels)
+        print("FFfffffffff\n")
         if answered:
             timed_out = True
       if dectection_callback:
