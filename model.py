@@ -252,34 +252,32 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
   logger.info("Loaded commands: %s", str(commands))
   logger.info("Recording")
   timed_out = False
-
-  if step == 1:
-    wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
-    wave_obj = sa.WaveObject.from_wave_file("entry.wav")
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
-  elif step == 2:
-    wave_obj = sa.WaveObject.from_wave_file("package.wav")
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
-  
+ 
   with recorder:
     last_detection = -1
+    t = 1
     while not timed_out:
       print("A\n")
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
+      if step == 1 and t == 1:
+        wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        t = 2
+      elif step == 2 t == 1:
+        wave_obj = sa.WaveObject.from_wave_file("package.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        t = 2
       print("B\n")
       set_input(interpreter, spectrogram.flatten())
-      print("C\n")
       interpreter.invoke()
-      print("D\n")
       result = get_output(interpreter)
-      print("EEeeeeeee\n")
       if result_callback:
         answered = result_callback(result, commands, labels)
-        print("FFfffffffff\n")
         if answered:
             timed_out = True
       if dectection_callback:
