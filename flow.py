@@ -158,9 +158,7 @@ def main():
         play_obj.wait_done()
         wave_obj = sa.WaveObject.from_wave_file("entry.wav")
         play_obj = wave_obj.play()
-        print("S/n")
         play_obj.wait_done()
-        print("T/n")
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
@@ -175,17 +173,16 @@ def main():
                      sample_rate_hz=int(args.sample_rate_hz),
                      num_frames_hop=int(args.num_frames_hop))
         if answer == 1:
-            #wave_obj = sa.WaveObject.from_wave_file("key.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
+            wave_obj = sa.WaveObject.from_wave_file("key.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
             answer = 0
             house = True
             parcel = False
         elif answer == 2:
-            #wave_obj = sa.WaveObject.from_wave_file("package.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
-            #time.sleep(0.100)
+            wave_obj = sa.WaveObject.from_wave_file("package.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
             answer = 0
             house = False
             # Voice Recognition
@@ -195,15 +192,15 @@ def main():
                         sample_rate_hz=int(args.sample_rate_hz),
                         num_frames_hop=int(args.num_frames_hop))
             if answer == 1:
-                #wave_obj = sa.WaveObject.from_wave_file("key.wav")
-                #play_obj = wave_obj.play()
-                #play_obj.wait_done()
+                wave_obj = sa.WaveObject.from_wave_file("key.wav")
+                play_obj = wave_obj.play()
+                play_obj.wait_done()
                 answer = 0
                 parcel = True
             elif answer == 2:
-                #wave_obj = sa.WaveObject.from_wave_file("goodday.wav")
-                #play_obj = wave_obj.play()
-                #play_obj.wait_done()
+                wave_obj = sa.WaveObject.from_wave_file("goodday.wav")
+                play_obj = wave_obj.play()
+                play_obj.wait_done()
                 answer = 0
                 parcel = False
         if house or parcel:
