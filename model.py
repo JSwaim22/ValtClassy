@@ -25,7 +25,6 @@ import numpy as np
 import queue
 import tflite_runtime.interpreter as tflite
 import platform
-#import simpleaudio as sa
 
 EDGETPU_SHARED_LIB = {
     'Linux': 'libedgetpu.so.1',
@@ -255,11 +254,8 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
  
   with recorder:
     last_detection = -1
-    #t = 1
     while not timed_out:
-      #print("A\n")
       spectrogram = feature_extractor.get_next_spectrogram(recorder)
-      #print("B\n")
       set_input(interpreter, spectrogram.flatten())
       interpreter.invoke()
       result = get_output(interpreter)
@@ -267,19 +263,6 @@ def classify_audio(audio_device_index, interpreter, step, labels_file,
         answered = result_callback(result, commands, labels)
         if answered:
             timed_out = True
-        #if step == 1 and t == 1:
-            #wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
-            #wave_obj = sa.WaveObject.from_wave_file("entry.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
-            #t = 2
-        #elif step == 2 and t == 1:
-            #wave_obj = sa.WaveObject.from_wave_file("package.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
-            #t = 2
       if dectection_callback:
         detection = -1
         print("E\n")
