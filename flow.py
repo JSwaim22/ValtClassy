@@ -19,7 +19,7 @@ import re
 import svgwrite
 import time
 from periphery import GPIO
-#import simpleaudio as sa
+import simpleaudio as sa
 import VL53L0X
 
 import gi
@@ -153,13 +153,14 @@ def main():
             time.sleep(timing/1000000.00)
         motion.stop_ranging()
 
-        #wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
-        #play_obj = wave_obj.play()
-        #play_obj.wait_done()
-        #wave_obj = sa.WaveObject.from_wave_file("entry.wav")
-        #play_obj = wave_obj.play()
-        #play_obj.wait_done()
-        #time.sleep(0.100)
+        wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+        play_obj = wave_obj.play()
+        print("S/n")
+        play_obj.wait_done()
+        print("T/n")
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
