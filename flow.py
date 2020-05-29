@@ -153,12 +153,13 @@ def main():
             time.sleep(timing/1000000.00)
         motion.stop_ranging()
 
-        #wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
-        #play_obj = wave_obj.play()
-        #play_obj.wait_done()
-        #wave_obj = sa.WaveObject.from_wave_file("entry.wav")
-        #play_obj = wave_obj.play()
-        #play_obj.wait_done()
+        wave_obj = sa.WaveObject.from_wave_file("welcome.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        wave_obj = sa.WaveObject.from_wave_file("entry.wav")
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+        time.sleep(0.100)
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
@@ -180,9 +181,10 @@ def main():
             house = True
             parcel = False
         elif answer == 2:
-            #wave_obj = sa.WaveObject.from_wave_file("package.wav")
-            #play_obj = wave_obj.play()
-            #play_obj.wait_done()
+            wave_obj = sa.WaveObject.from_wave_file("package.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
+            time.sleep(0.100)
             answer = 0
             house = False
             # Voice Recognition
