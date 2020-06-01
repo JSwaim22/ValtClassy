@@ -141,6 +141,7 @@ def main():
         
         
         # Particle Check motion and then Play Audio
+        print("Welcome. Do you want in?")
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
@@ -156,11 +157,13 @@ def main():
                      num_frames_hop=int(args.num_frames_hop))
         if answer == 1:
             # Particle Play Audio
+            print("Please scan your key")
             answer = 0
             house = True
             parcel = False
         elif answer == 2:
             # Particle Play Audio
+            print("Do you have a package?")
             answer = 0
             house = False
             # Voice Recognition
@@ -171,10 +174,12 @@ def main():
                         num_frames_hop=int(args.num_frames_hop))
             if answer == 1:
                 # Particle Play Audio
+                print("Please scan your key")
                 answer = 0
                 parcel = True
             elif answer == 2:
                 # Particle Play Audio
+                print("Goodday")
                 answer = 0
                 parcel = False
         if house or parcel:
@@ -214,10 +219,13 @@ def main():
             if access:
                 if house:
                     # Particle Play Audio
+                    print("Enjoy your stay\n")
                 elif parcel:
                     # Particle Play Audio
+                    print("Thank you for your delivery\n")
             else:
                 # Particle Play Audio
+                print("Access denied. Leave\n")
         
         time.sleep(3)
 
