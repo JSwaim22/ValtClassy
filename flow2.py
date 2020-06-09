@@ -131,10 +131,8 @@ def main():
         
         gpio7.write(True)
         gpio8.write(True)
-        
         while(gpio6.read() == False):
           time.sleep(0.1)
-       
         time.sleep(2)
         
         # Voice Recognition
@@ -177,15 +175,23 @@ def main():
                         sample_rate_hz=int(args.sample_rate_hz),
                         num_frames_hop=int(args.num_frames_hop))
             if answer == 1:
-                # Particle Play Audio
-                print("Please scan your key")
+                gpio8.write(True)
+                gpio7.write(False)
+                while(gpio6.read() == False):
+                  time.sleep(0.1)
+                gpio7.write(True)
                 answer = 0
                 parcel = True
+                time.sleep(1)
             elif answer == 2:
-                # Particle Play Audio
-                print("Goodday")
+                gpio8.write(True)
+                gpio7.write(False)
+                while(gpio6.read() == False):
+                  time.sleep(0.1)
+                gpio7.write(True)
                 answer = 0
                 parcel = False
+                time.sleep(1)
         if house or parcel:
             default_model_dir = '../all_models'
             default_model = 'mobilenet_v2_1.0_224_quant_edgetpu.tflite'
