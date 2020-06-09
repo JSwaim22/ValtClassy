@@ -28,8 +28,7 @@ from gi.repository import GLib, GObject, Gst, GstBase, Gtk
 
 Category = collections.namedtuple('Category', ['id', 'score'])
 
-gpio6 = GPIO(6, "out")
-gpio73 = GPIO(73, "out")
+gpio6 = GPIO(6, "in")
 gpio7 = GPIO(7, "out")
 gpio8 = GPIO(8, "out")
 
@@ -109,20 +108,16 @@ def main():
             if house:
                 if labels.get(result.id, result.id) == "tree frog, tree-frog":
                     access = 1
-                    gpio6.write(True)
                     Gtk.main_quit()
                 elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
                     access = 0
-                    gpio73.write(True)
                     Gtk.main_quit()
             elif parcel:
                 if labels.get(result.id, result.id) == "acoustic guitar": 
                     access = 1
-                    gpio7.write(True)
                     Gtk.main_quit()
                 elif labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
                     access = 0
-                    gpio8.write(True)
                     Gtk.main_quit()
                 
         print(' '.join(text_lines))
@@ -134,14 +129,13 @@ def main():
         global house
         global parcel
         
-        gpio6.write(False)
-        gpio73.write(False)
-        gpio7.write(False)
-        gpio8.write(False)
+        gpio7.write(True)
+        gpio8.write(True)
         
-        
-        # Particle Check motion and then Play Audio
-        print("Welcome. Do you want in?")
+        while(gpio6.read() == False):
+          time.sleep(0.1)
+       
+        time.sleep(2)
         
         # Voice Recognition
         parser = argparse.ArgumentParser()
@@ -155,17 +149,27 @@ def main():
                      result_callback=print_results,
                      sample_rate_hz=int(args.sample_rate_hz),
                      num_frames_hop=int(args.num_frames_hop))
+        
         if answer == 1:
-            # Particle Play Audio
-            print("Please scan your key")
+            gpio8.write(True)
+            gpio7.write(False)
+            while(gpio6.read() == False):
+              time.sleep(0.1)
+            gpio7.write(True)
             answer = 0
             house = True
             parcel = False
+            time.sleep(2)
+            
         elif answer == 2:
-            # Particle Play Audio
-            print("Do you have a package?")
+            gpio8.write(False)
+            gpio7.write(False)
+            while(gpio6.read() == False):
+              time.sleep(0.1)
+            gpio7.write(True)
             answer = 0
             house = False
+            time.sleep(1)
             # Voice Recognition
             model.classify_audio(mic, interpreter, 2,
                         labels_file="config/labels_gc2.raw.txt",
@@ -217,17 +221,19 @@ def main():
                                         videosrc=args.videosrc,
                                         videofmt=args.videofmt)
             if access:
-                if house:
-                    # Particle Play Audio
-                    print("Enjoy your stay\n")
-                elif parcel:
-                    # Particle Play Audio
-                    print("Thank you for your delivery\n")
+              gpio8.write(True)
+              gpio7.write(False)
+              while(gpio6.read() == False):
+                time.sleep(0.1)
+              gpio7.write(True)
             else:
-                # Particle Play Audio
-                print("Access denied. Leave\n")
+              gpio8.write(False)
+              gpio7.write(False)
+              while(gpio6.read() == False):
+                time.sleep(0.1)
+              gpio7.write(True)
         
-        time.sleep(3)
+        time.sleep(6)
 
 
 if __name__ == '__main__':
