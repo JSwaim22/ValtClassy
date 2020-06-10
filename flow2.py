@@ -44,10 +44,10 @@ def print_results(result, commands, labels, top=3):
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
-    if l == "yes" and result[top_results[p]] > 0.3:
+    if l == "yes" and result[top_results[p]] > 0.1:
       answered = True
       answer = 1
-    elif l == "no" and result[top_results[p]] > 0.3:
+    elif l == "no" and result[top_results[p]] > 0.1:
       answered = True
       answer = 2
     if l in commands.keys():
