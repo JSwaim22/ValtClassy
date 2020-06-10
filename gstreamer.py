@@ -57,15 +57,11 @@ class GstPipeline:
         
         # Run pipeline.
         self.pipeline.set_state(Gst.State.PLAYING)
-        print('Dis loop???\n')
         try:
-            print('Surely not???\n')
             Gtk.main()
         except:
-            print('But dis though???\n')
             pass
             
-        print('TRY THIS ONE ON FOR SIZE BIG BOY\n')
         # Clean up.
         self.pipeline.set_state(Gst.State.NULL)
         while GLib.MainContext.default().iteration(False):
