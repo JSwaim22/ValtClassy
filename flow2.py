@@ -157,7 +157,6 @@ def main():
             answer = 0
             house = True
             parcel = False
-            time.sleep(2)
             
         elif answer == 2:
             gpio8.write(False)
@@ -182,7 +181,6 @@ def main():
                 gpio7.write(True)
                 answer = 0
                 parcel = True
-                time.sleep(1)
             elif answer == 2:
                 gpio8.write(False)
                 gpio7.write(False)
@@ -191,7 +189,6 @@ def main():
                 gpio7.write(True)
                 answer = 0
                 parcel = False
-                time.sleep(1)
         if house or parcel:
             default_model_dir = '../all_models'
             default_model = 'mobilenet_v2_1.0_224_quant_edgetpu.tflite'
@@ -239,7 +236,7 @@ def main():
                 time.sleep(0.05)
               gpio7.write(True)
         
-        time.sleep(6)
+        time.sleep(2)
 
 
 if __name__ == '__main__':
