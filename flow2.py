@@ -178,7 +178,7 @@ def main():
                 gpio8.write(True)
                 gpio7.write(False)
                 while(gpio6.read() == False):
-                  time.sleep(0.1)
+                  time.sleep(0.05)
                 gpio7.write(True)
                 answer = 0
                 parcel = True
