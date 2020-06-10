@@ -106,17 +106,17 @@ def main():
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
             if house:
-                if labels.get(result.id, result.id) == "tree frog, tree-frog" and result.score > 0.5:
+                if labels.get(result.id, result.id) == "tree frog, tree-frog" and result.score > 0.3:
                     access = 1
                     Gtk.main_quit()
-                elif (labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.5:
+                elif (labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.3:
                     access = 0
                     Gtk.main_quit()
             elif parcel:
-                if labels.get(result.id, result.id) == "acoustic guitar" and result.score > 0.5: 
+                if labels.get(result.id, result.id) == "acoustic guitar" and result.score > 0.3: 
                     access = 1
                     Gtk.main_quit()
-                elif (labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.5:
+                elif (labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.3:
                     access = 0
                     Gtk.main_quit()
                 
