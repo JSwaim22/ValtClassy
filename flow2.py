@@ -132,7 +132,7 @@ def main():
         gpio7.write(True)
         gpio8.write(True)
         while(gpio6.read() == False):
-          time.sleep(0.1)
+          time.sleep(0.05)
         time.sleep(2)
         
         # Voice Recognition
@@ -152,7 +152,7 @@ def main():
             gpio8.write(True)
             gpio7.write(False)
             while(gpio6.read() == False):
-              time.sleep(0.1)
+              time.sleep(0.05)
             gpio7.write(True)
             answer = 0
             house = True
@@ -163,7 +163,7 @@ def main():
             gpio8.write(False)
             gpio7.write(False)
             while(gpio6.read() == False):
-              time.sleep(0.1)
+              time.sleep(0.05)
             gpio7.write(True)
             answer = 0
             house = False
@@ -187,7 +187,7 @@ def main():
                 gpio8.write(True)
                 gpio7.write(False)
                 while(gpio6.read() == False):
-                  time.sleep(0.1)
+                  time.sleep(0.05)
                 gpio7.write(True)
                 answer = 0
                 parcel = False
@@ -230,13 +230,13 @@ def main():
               gpio8.write(True)
               gpio7.write(False)
               while(gpio6.read() == False):
-                time.sleep(0.1)
+                time.sleep(0.05)
               gpio7.write(True)
             else:
               gpio8.write(False)
               gpio7.write(False)
               while(gpio6.read() == False):
-                time.sleep(0.1)
+                time.sleep(0.05)
               gpio7.write(True)
         
         time.sleep(6)
