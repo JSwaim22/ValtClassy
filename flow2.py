@@ -44,10 +44,10 @@ def print_results(result, commands, labels, top=3):
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
-    if l == "yes":
+    if l == "yes" and result[top_results[p]] > 0.3:
       answered = True
       answer = 1
-    elif l == "no":
+    elif l == "no" and result[top_results[p]] > 0.3:
       answered = True
       answer = 2
     if l in commands.keys():
@@ -106,17 +106,17 @@ def main():
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
             if house:
-                if labels.get(result.id, result.id) == "tree frog, tree-frog":
+                if labels.get(result.id, result.id) == "tree frog, tree-frog" and result.score > 0.5:
                     access = 1
                     Gtk.main_quit()
-                elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
+                elif (labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.5:
                     access = 0
                     Gtk.main_quit()
             elif parcel:
-                if labels.get(result.id, result.id) == "acoustic guitar": 
+                if labels.get(result.id, result.id) == "acoustic guitar" and result.score > 0.5: 
                     access = 1
                     Gtk.main_quit()
-                elif labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
+                elif (labels.get(result.id, result.id) == "tree frog, tree-frog" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball") and result.score > 0.5:
                     access = 0
                     Gtk.main_quit()
                 
