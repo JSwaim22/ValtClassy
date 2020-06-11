@@ -1,1 +1,1 @@
-python3 flow.py
+python3 ~/Valt/gstreamer/flow.py
