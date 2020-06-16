@@ -111,14 +111,6 @@ def main():
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if labels.get(result.id, result.id) == "tree frog, tree-frog":
-                gpio6.write(True)
-                gpio73.write(False)
-                #playsound()
-            elif labels.get(result.id, result.id) == "acoustic guitar" or labels.get(result.id, result.id) == "jigsaw puzzle" or labels.get(result.id, result.id) == "jellyfish" or labels.get(result.id, result.id) == "basketball" or labels.get(result.id, result.id) == "soccer ball":
-                gpio73.write(True)
-                gpio6.write(False)
-                Gtk.main_quit()
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
 
@@ -127,7 +119,6 @@ def main():
                                     appsink_size=inference_size,
                                     videosrc=args.videosrc,
                                     videofmt=args.videofmt)
-    print('this gonna work???\n')
 
 if __name__ == '__main__':
     main()
