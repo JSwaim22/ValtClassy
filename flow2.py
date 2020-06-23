@@ -44,7 +44,7 @@ def print_results(result, commands, labels, top=3):
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
-    if gpio6.read() == True
+    if gpio6.read() == True:
       answered = True
       answer = 3
     elif l == "yes" and result[top_results[p]] > 0.2:
