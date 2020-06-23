@@ -44,7 +44,10 @@ def print_results(result, commands, labels, top=3):
   top_results = np.argsort(-result)[:top]
   for p in range(top):
     l = labels[top_results[p]]
-    if l == "yes" and result[top_results[p]] > 0.2:
+    if gpio6.read() == True
+      answered = True
+      answer = 3
+    elif l == "yes" and result[top_results[p]] > 0.2:
       answered = True
       answer = 1
     elif l == "no" and result[top_results[p]] > 0.01:
@@ -105,7 +108,10 @@ def main():
         ]
         for result in results:
             text_lines.append('score={:.2f}: {}'.format(result.score, labels.get(result.id, result.id)))
-            if house:
+            if gpio6.read() == True:
+                access = 2
+                Gtk.main_quit()    
+            elif house:
                 if labels.get(result.id, result.id) == "tree frog, tree-frog" and result.score > 0.3:
                     access = 1
                     Gtk.main_quit()
@@ -148,7 +154,11 @@ def main():
                      sample_rate_hz=int(args.sample_rate_hz),
                      num_frames_hop=int(args.num_frames_hop))
         
-        if answer == 1:
+        if answer == 3:
+            answer = 0
+            house = False
+            parcel = False
+        elif answer == 1:
             gpio8.write(True)
             gpio7.write(False)
             while(gpio6.read() == False):
@@ -173,7 +183,10 @@ def main():
                         result_callback=print_results,
                         sample_rate_hz=int(args.sample_rate_hz),
                         num_frames_hop=int(args.num_frames_hop))
-            if answer == 1:
+            if answer == 3:
+                answer = 0
+                parcel = False
+            elif answer == 1:
                 gpio8.write(True)
                 gpio7.write(False)
                 while(gpio6.read() == False):
@@ -223,18 +236,19 @@ def main():
                                         appsink_size=inference_size,
                                         videosrc=args.videosrc,
                                         videofmt=args.videofmt)
-            if access:
-              gpio8.write(True)
-              gpio7.write(False)
-              while(gpio6.read() == False):
-                time.sleep(0.05)
-              gpio7.write(True)
-            else:
-              gpio8.write(False)
-              gpio7.write(False)
-              while(gpio6.read() == False):
-                time.sleep(0.05)
-              gpio7.write(True)
+                
+            if access == 1:
+                gpio8.write(True)
+                gpio7.write(False)
+                while(gpio6.read() == False):
+                    time.sleep(0.05)
+                gpio7.write(True)
+            elif access == 0:
+                gpio8.write(False)
+                gpio7.write(False)
+                while(gpio6.read() == False):
+                    time.sleep(0.05)
+                gpio7.write(True)
         
         time.sleep(2)
 
