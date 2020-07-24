@@ -1,6 +1,5 @@
-# To add: higher rating requiment for pictures to minimize false triggers
-#         loading recording software before speaking to speed up process
-#         test with good setup
+#///-----------------------------------------------------------\\\
+#//                          Setup                              \\
 
 from __future__ import absolute_import
 from __future__ import division
@@ -37,6 +36,13 @@ answer = 0
 house = False
 parcel = False
 
+#\\                                                             //
+#\\\-----------------------------------------------------------///
+
+
+#///-----------------------------------------------------------\\\
+#//                      Listening                              \\
+
 def print_results(result, commands, labels, top=3):
   """Example callback function that prints the passed detections."""
   global answer
@@ -65,6 +71,10 @@ def print_results(result, commands, labels, top=3):
   sys.stdout.write("\n")
   return answered
 
+#\\                                                             //
+#\\\-----------------------------------------------------------///
+
+
 def load_labels(path):
     p = re.compile(r'\s*(\d+)(.+)')
     with open(path, 'r', encoding='utf-8') as f:
@@ -89,6 +99,10 @@ def get_output(interpreter, top_k, score_threshold):
     return sorted(categories, key=operator.itemgetter(1), reverse=True)
 
 def main():
+
+
+#///-----------------------------------------------------------\\\
+#//                    Scanning Image                           \\
 
     def user_callback(input_tensor, src_size, inference_box):
         global access
@@ -128,6 +142,9 @@ def main():
                 
         print(' '.join(text_lines))
         return generate_svg(src_size, text_lines)
+      
+#\\                                                             //
+#\\\-----------------------------------------------------------///
 
     while(1):
         global access
@@ -137,28 +154,28 @@ def main():
         
         gpio7.write(True)
         gpio8.write(True)
-        while(gpio6.read() == False):
+        while(gpio6.read() == False):                                     #  Waiting for signal
           time.sleep(0.05)
         time.sleep(2)
         
-        # Voice Recognition
+        # Setting up voice recogniton
         parser = argparse.ArgumentParser()
         model.add_model_flags(parser)
         args = parser.parse_args()
         interpreter = model.make_interpreter(args.model_file)
         interpreter.allocate_tensors()
         mic = args.mic if args.mic is None else int(args.mic)
-        model.classify_audio(mic, interpreter, 1,
+        model.classify_audio(mic, interpreter, 1,                           # Calling Listening Function
                      labels_file="config/labels_gc2.raw.txt",
                      result_callback=print_results,
                      sample_rate_hz=int(args.sample_rate_hz),
                      num_frames_hop=int(args.num_frames_hop))
         
-        if answer == 3:
+        if answer == 3:     # Timed out
             answer = 0
             house = False
             parcel = False
-        elif answer == 1:
+        elif answer == 1:   # Yes
             gpio8.write(True)
             gpio7.write(False)
             while(gpio6.read() == False):
@@ -168,7 +185,7 @@ def main():
             house = True
             parcel = False
             
-        elif answer == 2:
+        elif answer == 2:   # No
             gpio8.write(False)
             gpio7.write(False)
             while(gpio6.read() == False):
@@ -177,16 +194,15 @@ def main():
             answer = 0
             house = False
             time.sleep(1)
-            # Voice Recognition
-            model.classify_audio(mic, interpreter, 2,
+            model.classify_audio(mic, interpreter, 2,                           # Calling Listening Function
                         labels_file="config/labels_gc2.raw.txt",
                         result_callback=print_results,
                         sample_rate_hz=int(args.sample_rate_hz),
                         num_frames_hop=int(args.num_frames_hop))
-            if answer == 3:
+            if answer == 3:     # Timed out
                 answer = 0
                 parcel = False
-            elif answer == 1:
+            elif answer == 1:   # Yes
                 gpio8.write(True)
                 gpio7.write(False)
                 while(gpio6.read() == False):
@@ -194,7 +210,7 @@ def main():
                 gpio7.write(True)
                 answer = 0
                 parcel = True
-            elif answer == 2:
+            elif answer == 2:   # No
                 gpio8.write(False)
                 gpio7.write(False)
                 while(gpio6.read() == False):
@@ -203,6 +219,7 @@ def main():
                 answer = 0
                 parcel = False
         if house or parcel:
+            # Setting up image recogniton
             default_model_dir = '../all_models'
             default_model = 'mobilenet_v2_1.0_224_quant_edgetpu.tflite'
             default_labels = 'imagenet_labels.txt'
@@ -231,12 +248,13 @@ def main():
             inference_size = (w, h)
             # Average fps over last 30 frames.
             fps_counter = common.avg_fps_counter(30)
-            result = gstreamer.run_pipeline(user_callback,
+            result = gstreamer.run_pipeline(user_callback,                # Calling Scanning Image Function
                                         src_size=(640, 480),
                                         appsink_size=inference_size,
                                         videosrc=args.videosrc,
                                         videofmt=args.videofmt)
                 
+            # Communication with ESP32 Board
             if access == 1:
                 gpio8.write(True)
                 gpio7.write(False)
